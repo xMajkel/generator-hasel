@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Generator haseł</title>
+    <style>
+    body{
+    font-family: arial;
+    }
+    .main{
+    padding: 1em;
+    background-color: #ebebeb;
+    margin: auto;
+    width: 800px;
+    border: #e7adff solid 0.15em;
+    }
+    .title{
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5em;
+    padding: .2em;
+    background-color: #e7adff;
+    border: #e7adff solid 0.15em;
+    }
+    #input{
+      width: 100%;
+      height: 5em;
+    }
+    #output{
+      margin-top: .3em;
+      width: 99%;
+      padding: .2em;
+      font-size: 2em;
+    }
+    textarea {
+      margin-top: .2em;
+      resize: none;
+      overflow: auto;
+      border: none;
+    }
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 1em #e7adff;
+    }
+    input{
+      border:none;
+    }
+    input:focus {
+      border:none;
+      outline: none;
+      box-shadow: 0 0 1em #e7adff;
+    }
+    a{
+      font-weight: bold;
+    }
+    button{
+      padding: .5em 0 .5em 0;
+      background-color: #e7adff;
+      margin-top: .5em;
+      border: none;
+      width: 5em;
+      font-weight: bold;
+      text-align: center;
+    }
+    button:hover{
+      background-color: #f4d9ff;
+    }
+    .alert{
+      padding: .5em 0 .5em 0;
+      color: red;
+      display: none;
+    }
+    .span{
+      font-style: italic;
+      font-size: 1em;
+      color: grey;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+<div class="title">Generator prostego do zapamiętania, lecz bezpiecznego hasła.</div><br>
+<span class="span">Format generowanego hasła: <br>(pierwsza litera każdego wyrazu z wpisanej frazy) + (wybrany znak specjalny) + (wpisany numer)</span><br><br>
+<a>Wpisz fraze:</a><BR>
+<textarea id="input" placeholder="Tutaj wpisz dobrze znaną ci rymowankę/cytat/fragment piosenki itp."></textarea><br><hr>
+<a>Opcje dodatkowe:</a><br>
+<input type="checkbox" id="Pierwsza">Duża pierwsza litera<br><br>
+<input type="checkbox" id="Ana4">Zamień "A" na "4"<br>
+<input type="checkbox" id="Ina1">Zamień "I" na "1"<br>
+<input type="checkbox" id="bna6">Zamień "b" na "6"<br>
+<input type="checkbox" id="Ena3">Zamień "E" na "3"<br>
+<input type="checkbox" id="Sna5">Zamień "S" na "5"<br>
+<br>
+Znak specjalny:
+<select id="znak">
+  <option value="">Brak</option>
+  <option value="!">!</option>
+  <option value="@">@</option>
+  <option value="#">#</option>
+  <option value="$">$</option>
+  <option value="%">%</option>
+</select><br><br>
+Wpisz łatwą ci do zapamiętania liczbę:
+<input type="number" id="liczby"><div class="alert" id="alert2"> Podaj liczbę nieujemną!</div>
+<br><hr>
+<a>Twoje hasło:</a>
+<input type="text" id="output"><br><br>
+<div class="alert" id="alert">Uwaga! twoje hasło ma mniej niż 8 znaków!</div>
+</div>
+
+<script type="text/javascript">
+var input = document.getElementById("input");
+var output = document.getElementById("output");
+var Ana4= document.getElementById("Ana4");
+var Ina1= document.getElementById("Ina1");
+var bna6= document.getElementById("bna6");
+var Ena3= document.getElementById("Ena3");
+var Sna5= document.getElementById("Sna5");
+var znak= document.getElementById("znak");
+var liczby= document.getElementById("liczby");
+var pierwsza=document.getElementById("Pierwsza");
+input.value="";output.value="";
+var password = "";
+
+function get(){
+  password="";
+  if(liczby.value<0){
+    document.getElementById("alert2").style.display = "inline";
+    return 0;
+  }
+  else{
+    document.getElementById("alert2").style.display = "none";
+  }
+  var array=input.value.split(" ");
+  for (var i = 0; i < array.length; i++) {
+    var FirstLetter = array[i].substr(0,1).toLowerCase();
+    console.log(FirstLetter);
+    if(FirstLetter=="a" && Ana4.checked){
+      password=password+"4";
+    }
+    else if(FirstLetter=="i" && Ina1.checked){
+      password=password+"1";
+    }
+    else if(FirstLetter=="b" && bna6.checked){
+      password=password+"6";
+    }
+    else if(FirstLetter=="e" && Ena3.checked){
+      password=password+"3";
+    }
+    else if(FirstLetter=="s" && Sna5.checked){
+      password=password+"5";
+    }
+    else if(i==0&&pierwsza.checked){
+      FirstLetter=FirstLetter.toUpperCase();
+      password=password+FirstLetter;
+    }
+    else{
+      password=password+FirstLetter;
+    }}
+  password=password+znak.value+liczby.value;
+  output.value = password;
+  if(password.length<=7){
+    document.getElementById("alert").style.display = "inline";
+  }
+  else{
+    document.getElementById("alert").style.display = "none";
+  }
+}
+var t = setInterval(get, 100);
+</script>
+  </body>
+</html>
